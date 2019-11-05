@@ -1,4 +1,3 @@
-#include<iostream>
 #include<string>
 #include<ctime>
 #include<fstream>
@@ -26,16 +25,16 @@ enum RecordType
   OTHER
 };
 
-class Time
+class RecordTime
 {
   private:
     time_t unixTime;
     tm timeStruct;
   public:
-    Time(time_t ut = time(NULL)) : unixTime(ut){
+    RecordTime(time_t ut = time(NULL)) : unixTime(ut){
       timeStruct = *localtime(&ut);
     };
-    Time(Time *p) : unixTime(p->unixTime), timeStruct(p->timeStruct){};
+    RecordTime(RecordTime *p) : unixTime(p->unixTime), timeStruct(p->timeStruct){};
     string toString()
     {
       string year = to_string(timeStruct.tm_year + 1900);
@@ -46,26 +45,33 @@ class Time
       string second = to_string(timeStruct.tm_sec);
       return year + "年" + month + "月" + day + "日" + " " + (hour.length()<2?"0"+hour:hour) + ":" + (minute.length()<2?"0"+minute:minute) + ":" + (second.length()<2?"0"+second:second);
     }
-    static void sort(Time *data ,int length){
+    string toShortString(){
+      string year = to_string(timeStruct.tm_year + 1900);
+      string month = to_string(timeStruct.tm_mon + 1);
+      string day = to_string(timeStruct.tm_mday);
+      return year + "-" + month + "-" + day;
+    }
+    static void sort(RecordTime *data ,int length){
       for (int i = 0; i < length; i++)
       {
         for (int j = i + 1; j < length;j++){
           if(data[j].unixTime>data[i].unixTime){
-            Time *temp = new Time(data[i]);
+            RecordTime *temp = new RecordTime(data[i]);
             data[i] = data[j];
             data[j] = *temp;
             delete temp;
           }
         }
       }
-    }  
+    }
 };
 
 class PersonalInfo{
   public:
     string name,phoneNumber,studentID;
     PersonalInfo(const string n,const string p,const string s):name(n),phoneNumber(p),studentID(s){ }
-    PersonalInfo(PersonalInfo *p):name(p->name),phoneNumber(p->phoneNumber),studentID(p->studentID){}
+    PersonalInfo() : name(string()), phoneNumber(string()), studentID(string()){};
+    PersonalInfo(PersonalInfo *p) : name(p->name), phoneNumber(p->phoneNumber), studentID(p->studentID) {}
     string toString(){
       return "姓名:" + name + " 手机号:" + phoneNumber + " 学号:" + studentID;
     }
@@ -76,12 +82,12 @@ class Record
   private:
     string name;
     string place;
-    Time *lostTime,*pickUpTime;
+    RecordTime *lostTime,*pickUpTime;
     RecordState state;
     PersonalInfo *info;
     RecordType *type;
   public:
-    Record(const string n,const string p, Time *l) :name(n), place(p), lostTime(l),state(LOST){
+    Record(const string n,const string p, RecordTime *l) :name(n), place(p), lostTime(l),state(LOST){
       this->info = NULL;
       this->type = NULL;
       this->pickUpTime = NULL;
@@ -95,14 +101,17 @@ class Record
     void verify(){
       this->state = LOST_AND_VERIFY;
     };
-    void pickUp(PersonalInfo *p,Time *pt)
+    void pickUp(PersonalInfo *p,RecordTime *pt)
     {
       this->state = FOUND;
-      this->pickUpTime = new Time(pt);
+      this->pickUpTime = new RecordTime(pt);
       this->info = new PersonalInfo(p);
     }
     string toString(){
-      return "物品名称" + name + "位置" + place;
+      return "物品名称:" + name + " 位置:" + place+" 丢失时间:"+lostTime->toString();
+    }
+    string getLostDay(){
+      return lostTime->toShortString();
     }
 };
 
@@ -116,32 +125,41 @@ class Admin{
     void setSuper(){
       this->isSuper = true;
     }
-    string toString(){
+    Admin() : username(string()), password(string()),isSuper(false){};
+    string toString()
+    {
       return (isSuper ? "管理员: " : "学生: ") + username;
     }
 };
 
 class Util{
-  static const string DLL_PATH;
-  static string recordPath(string &filename){
-    return "D:\\LOST_FOUND\\" + filename + ".txt";
-  };
-  template <class T>
-  static bool setStorage(T source)
-  {
-    ostream ofile(PATH);
-    
-  }
-  template<class T>
-  static T getStorage(){
+  public:
+    static const string DAT_PATH;
+    static string recordPath(string &filename){
+      return "/mnt/d/74992/Documents/lost_and_found/data/" + filename + ".txt";
+    };
+    template <class T>
+    static bool setStorage(T source)
+    {
+      ostream ofile(DAT_PATH);
 
-  }
-  static bool appendRecord(Record &r){
-    
-  }
+    }
+    template<class T>
+    static T getStorage(){
+
+    }
+    static bool appendRecord( Record &r){
+      string filename = r.getLostDay();
+      ofstream outF(recordPath(filename),ifstream::app);
+      if(outF.is_open()){
+        outF << r.toString() << endl;
+      }
+      else{
+        return false;
+      }
+    }
+    static bool appendRecord(Record *r){
+      return appendRecord(*r);
+    }
 };
-const string Util::DLL_PATH = "D:\\LOST_FOUND\\data.dll";
-
-int main(){
-  PersonalInfo *p = new PersonalInfo("陈凯森", "19805182292","B18030721");
-}
+const string Util::DAT_PATH = "/mnt/d/74992/Documents/lost_and_found/data/data.dat";
