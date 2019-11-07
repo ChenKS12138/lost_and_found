@@ -32,12 +32,16 @@ class RecordTime{
 private:
     time_t unixTime;
     tm timeStruct;
+    bool isEmpty;
+
 public:
-    RecordTime(time_t ut=time(NULL));
+    RecordTime(time_t ut);
+    RecordTime();
     RecordTime(RecordTime *p);
     string toString();
     string toShortString();
-    static void sort(RecordTime *data ,int length);
+    void setNow();
+    static void sort(RecordTime *data, int length);
 };
 
 class PersonalInfo{

@@ -13,13 +13,22 @@ int getLength(T& arr)
     return sizeof(arr) / sizeof(arr[0]);
 }
 
-RecordTime::RecordTime(time_t ut) {
+RecordTime::RecordTime(time_t ut):isEmpty(false){
     this->unixTime = ut;
     this->timeStruct = *localtime(&ut);
 }
-RecordTime::RecordTime(RecordTime *p) : unixTime(p->unixTime), timeStruct(p->timeStruct){}
+RecordTime::RecordTime():isEmpty(true){}
+RecordTime::RecordTime(RecordTime *p) : unixTime(p->unixTime), timeStruct(p->timeStruct),isEmpty(false){}
+void RecordTime::setNow(){
+    this->isEmpty = false;
+    time_t ut = time(NULL);
+    this->unixTime = ut;
+    this->timeStruct = *localtime(&ut);
+}
 string RecordTime::toString()
 {
+    if(isEmpty)
+        return string("未知");
     string year = to_string(this->timeStruct.tm_year + 1900);
     string month = to_string(timeStruct.tm_mon + 1);
     string day = to_string(timeStruct.tm_mday);
@@ -29,6 +38,8 @@ string RecordTime::toString()
     return year + "年" + month + "月" + day + "日" + " " + (hour.length()<2?"0"+hour:hour) + ":" + (minute.length()<2?"0"+minute:minute) + ":" + (second.length()<2?"0"+second:second);
 }
 string RecordTime::toShortString(){
+    if(isEmpty)
+        return string("未知");
     string year = to_string(timeStruct.tm_year + 1900);
     string month = to_string(timeStruct.tm_mon + 1);
     string day = to_string(timeStruct.tm_mday);
@@ -82,7 +93,7 @@ Record::Record(const char *n,const char *p, RecordTime &l) : lostTime(l),state(L
     }
 Record::Record(string &n,string &p,RecordTime &l):lostTime(l),state(LOST){
     strcpy(name,n.c_str());
-    strcpy(place,n.c_str());
+    strcpy(place,p.c_str());
 }
 Record::Record():state(LOST){}
 void Record::verify()
@@ -113,14 +124,14 @@ string Record::toString(){
     default:
         stateString = "未知";
     }
-    return "物品名称:" + string(name) + " 位置:" + place+" 丢失时间:"+lostTime.toString() +" " +stateString;
+    return "物品名称:" + string(name) + " 位置:" + string(place)+" 丢失时间:"+lostTime.toString() +" " +stateString;
 }
 string Record::getLostDay(){
     return lostTime.toShortString();
 }
 
 string Record::getPickUpTime(){
-    return this->lostTime.toString();
+    return this->pickUpTime.toString();
 }
 
 string Record::getPlace(){

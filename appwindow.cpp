@@ -29,6 +29,9 @@ AppWindow::AppWindow(Admin a,QWidget *parent) :
     ui->recordTable->setColumnWidth(5,120);
     ui->recordTable->setColumnWidth(6,120);
     ui->recordTable->setColumnWidth(7,200);
+    ui->recordTable->setSelectionBehavior(QAbstractItemView::SelectRows);
+    ui->recordTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    ui->recordTable->verticalHeader()->setVisible(true);
     QStringList sListHeader;
     sListHeader<<"物品名称"<<"丢失时间"<<"丢失地点"<<"状态"<<"认领人姓名"<<"认领人学号"<<"认领人学号"<<"认领时间";
     ui->recordTable->setHorizontalHeaderLabels(sListHeader);
@@ -69,6 +72,7 @@ void AppWindow::on_pushButton_clicked()
     string placeText = QInputDialog::getText(NULL, "新建记录","请输入丢失地点",QLineEdit::Normal,"物品地点",&placeOk).toStdString();
     if(!placeOk) return;
     RecordTime t;
+    t.setNow();
     Record a(nameText,placeText,t);
     Util::generateRecord(a);
     Util::addRecord(a);
