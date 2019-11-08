@@ -179,6 +179,10 @@ bool Admin::verify(string u,string p){
         return false;
     }
 }
+Admin::Admin(string u,string p):isSuper(false){
+    strcpy(username,u.c_str());
+    strcpy(password,p.c_str());
+}
 string Admin::toString()
 {
     return (isSuper ? "管理员: " : "学生: ") + string(username);

@@ -6,6 +6,7 @@
 #include<fstream>
 #include<cstring>
 #include<vector>
+#include<iostream>
 
 using namespace std;
 
@@ -86,6 +87,7 @@ public:
     Admin(const char*u,const char *p);
     void setSuper();
     Admin();
+    Admin(string u,string p);
     bool verify(string u,string p);
     string toString();
     bool getSuper();
@@ -130,6 +132,7 @@ public:
             }
         }
         catch(exception e){
+            cout<<e.what()<<endl;
             return false;
         }
     }
