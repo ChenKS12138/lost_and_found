@@ -86,10 +86,11 @@ public:
     Admin(const char*u,const char *p);
     void setSuper();
     Admin();
-    bool vefify(string u,string p);
+    bool verify(string u,string p);
     string toString();
     bool getSuper();
     string getName();
+    string getPassword();
 };
 
 class Util{

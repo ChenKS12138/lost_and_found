@@ -27,13 +27,16 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     appwindow.cpp \
-    recordlib.cpp
+    recordlib.cpp \
+    adminwindow.cpp
 
 HEADERS += \
         mainwindow.h \
     appwindow.h \
-    recordlib.h
+    recordlib.h \
+    adminwindow.h
 
 FORMS += \
         mainwindow.ui \
-    appwindow.ui
+    appwindow.ui \
+    adminwindow.ui

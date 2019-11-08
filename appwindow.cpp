@@ -132,6 +132,8 @@ void AppWindow::on_confirmRecord_clicked()
 void AppWindow::on_manageAdmin_clicked()
 {
     // 点击管理管理员
+    this->admin_win = new AdminWindow();
+    this->admin_win->show();
 }
 
 void AppWindow::on_removeAll_clicked()

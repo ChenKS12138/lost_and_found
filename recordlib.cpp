@@ -171,7 +171,7 @@ void Admin::setSuper(){
     this->isSuper = true;
 }
 Admin::Admin():isSuper(false){}
-bool Admin::vefify(string u,string p){
+bool Admin::verify(string u,string p){
     if(u==username&&p==password){
         return true;
     }
@@ -189,7 +189,9 @@ bool Admin::getSuper(){
 string Admin::getName(){
     return this->username;
 }
-
+string Admin::getPassword(){
+    return this->password;
+}
 
 string Util::DAT_PATH= "./";
 string Util::recordPath(string &filename){

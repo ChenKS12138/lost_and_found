@@ -3,6 +3,7 @@
 
 #include "appwindow.h"
 #include <QMainWindow>
+#include "recordlib.h"
 
 namespace Ui {
 class MainWindow;
@@ -23,6 +24,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    void login(Admin a);
 };
 
 #endif // MAINWINDOW_H

@@ -18,28 +18,24 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::login(Admin a){
+    this->app_win = new AppWindow(a);
+    this->app_win->show();
+    this->close();
+    return;
+}
+
 void MainWindow::on_pushButton_clicked()
 {
     string username = ui->username->text().toStdString();
     string password = ui->password->text().toStdString();
-    if(username=="root"&&password=="root"){
-        Admin a("root","root");
-        a.setSuper();
-        this->app_win = new AppWindow(a);
-        this->app_win->show();
-        this->close();
-        return;
-    };
     vector<Admin> allAdmin = Util::getStorageSync<Admin>("admin");
-    for (int i = 0, length = allAdmin.size(); i < length; i++)
-    {
-        cout<<allAdmin[i].toString()<<endl;
-        if(allAdmin[i].vefify(username,password)){
-            this->app_win = new AppWindow(allAdmin[i]);
-            this->app_win->show();
-            this->close();
-            return;
+    Admin super("root","root");
+    super.setSuper();
+    allAdmin.push_back(super);
+    for(int i=0,length=allAdmin.size();i<length;i++){
+        if(allAdmin[i].verify(username,password)){
+            this->login(allAdmin[i]);
         }
     }
-
 }

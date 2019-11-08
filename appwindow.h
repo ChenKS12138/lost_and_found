@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "recordlib.h"
+#include "adminwindow.h"
 
 namespace Ui {
 class AppWindow;
@@ -15,6 +16,7 @@ class AppWindow : public QMainWindow
 public:
     explicit AppWindow(Admin a,QWidget *parent = 0);
     ~AppWindow();
+    AdminWindow *admin_win;
 
 private slots:
     void on_newRecord_clicked();
