@@ -27,6 +27,7 @@ private slots:
 
 private:
     Ui::AppWindow *ui;
+    void syncTable(vector<Record> &allRecord);
 };
 
 #endif // APPWINDOW_H

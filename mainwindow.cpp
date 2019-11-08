@@ -30,8 +30,10 @@ void MainWindow::on_pushButton_clicked()
         this->close();
         return;
     };
-    vector<Admin> allAdmin = Util::getAdmin();
-    for(int i=0,length=allAdmin.size();i<length;i++){
+    // vector<Admin> allAdmin = Util::getAdmin();
+    vector<Admin> allAdmin = Util::getStorageSync<Admin>("admin");
+    for (int i = 0, length = allAdmin.size(); i < length; i++)
+    {
         cout<<allAdmin[i].toString()<<endl;
         if(allAdmin[i].vefify(username,password)){
             this->app_win = new AppWindow(allAdmin[i]);

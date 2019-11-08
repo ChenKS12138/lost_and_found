@@ -98,9 +98,45 @@ public:
     static bool generateRecord(Record &r);
     static bool generateRecord(Record *r);
     static bool addAdmin(Admin &a);
-    static vector<Admin> getAdmin();
     static bool addRecord(Record &a);
+    static vector<Admin> getAdmin();
     static vector<Record> getRecord();
+    static bool syncAdmin(vector<Admin> &a);
+    static bool syncRecord(vector<Record> &r);
+    
+    template <class T>
+    static vector<T> getStorageSync(const char filename[]){
+        vector<T> dest;
+        ifstream inF(DAT_PATH + string(filename) + ".dat", ios::in | ios::binary);
+        if (inF.is_open())
+        {
+          T temp;
+          while (inF.read((char *)&temp, sizeof(T)))
+          {
+            dest.push_back(temp);
+          }
+          inF.close();
+          return dest;
+        }
+    }
+
+    template <class T>
+    static bool setStorageSync(const char filename[], vector<T> &t){
+        try{
+            ofstream outF(DAT_PATH + string(filename) + ".dat", ios::out | ios::binary);
+            if(outF.is_open()){
+                T *ta = new T[t.size()];
+                memcpy(ta, &t[0], t.size() * sizeof(t[0]));
+                outF.write((char *)ta, sizeof(ta[0])*t.size());
+                outF.close();
+                delete ta;
+                return true;
+            }
+        }
+        catch(exception e){
+            return false;
+        }
+    }
 };
 
 #endif // RECORDLIB_H

@@ -56,13 +56,6 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="1">
-      <widget class="QLineEdit" name="password">
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
      <item row="0" column="1">
       <widget class="QLineEdit" name="username">
        <property name="alignment">
@@ -70,7 +63,18 @@
        </property>
       </widget>
      </item>
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="password">
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
     </layout>
+    <zorder>label</zorder>
+    <zorder>label_2</zorder>
+    <zorder>password</zorder>
+    <zorder>username</zorder>
    </widget>
    <widget class="QPushButton" name="pushButton">
     <property name="geometry">
@@ -92,7 +96,7 @@
      <x>0</x>
      <y>0</y>
      <width>949</width>
-     <height>49</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>

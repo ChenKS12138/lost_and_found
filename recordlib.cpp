@@ -190,7 +190,7 @@ string Util::DAT_PATH= "./";
 string Util::recordPath(string &filename){
     return "./" + filename + ".txt";
 }
-    bool Util::generateRecord( Record &r){
+bool Util::generateRecord( Record &r){
     string filename = r.getLostDay();
     ofstream outF(recordPath(filename),ifstream::app);
     if(outF.is_open()){
@@ -202,10 +202,10 @@ string Util::recordPath(string &filename){
         return false;
     }
 }
-    bool Util::generateRecord(Record *r){
+bool Util::generateRecord(Record *r){
     return generateRecord(*r);
 }
-    bool Util::addAdmin(Admin &a){
+bool Util::addAdmin(Admin &a){
     try{
         ofstream outF(DAT_PATH + "admin.dat", ios::app | ios::binary);
         if(outF.is_open()){
@@ -221,7 +221,7 @@ string Util::recordPath(string &filename){
         return false;
     }
 }
-    vector<Admin> Util::getAdmin(){
+vector<Admin> Util::getAdmin(){
     vector<Admin> dest;
     ifstream inF(DAT_PATH + "admin.dat", ios::in | ios::binary);
     if(inF.is_open()){
@@ -234,7 +234,7 @@ string Util::recordPath(string &filename){
         return dest;
     }
 }
-    bool Util::addRecord(Record &a){
+bool Util::addRecord(Record &a){
     try{
         ofstream outF(DAT_PATH + "record.dat", ios::app | ios::binary);
         if(outF.is_open()){
@@ -250,7 +250,7 @@ string Util::recordPath(string &filename){
         return false;
     }
 }
-    vector<Record> Util::getRecord(){
+vector<Record> Util::getRecord(){
     vector<Record> dest;
     ifstream inF(DAT_PATH + "record.dat", ios::in | ios::binary);
     if(inF.is_open()){
@@ -263,3 +263,30 @@ string Util::recordPath(string &filename){
         return dest;
     }
 }
+bool Util::syncAdmin(vector<Admin> &a){
+    try{
+        ofstream outF(DAT_PATH + "admin.dat", ios::out | ios::binary);
+        if(outF.is_open()){
+            outF.write((char *)&a, sizeof(Admin));
+            outF.close();
+            return true;
+        }
+    }
+    catch(exception e){
+        return false;
+    }
+}
+bool Util::syncRecord(vector<Record> &r){
+    try{
+        ofstream outF(DAT_PATH + "record.dat", ios::out | ios::binary);
+        if(outF.is_open()){
+            outF.write((char *)&r, sizeof(r));
+            outF.close();
+            return true;
+        }
+    }
+    catch(exception e){
+        return false;
+    }
+}
+
