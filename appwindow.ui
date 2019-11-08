@@ -52,7 +52,7 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>200</x>
+      <x>330</x>
       <y>510</y>
       <width>131</width>
       <height>51</height>
@@ -84,7 +84,7 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>350</x>
+      <x>470</x>
       <y>510</y>
       <width>131</width>
       <height>51</height>
@@ -102,6 +102,38 @@
       <width>1051</width>
       <height>431</height>
      </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="removeRecord">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>190</x>
+      <y>510</y>
+      <width>121</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>删除记录</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="removeAll">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>970</x>
+      <y>30</y>
+      <width>93</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>清空所有</string>
     </property>
    </widget>
   </widget>

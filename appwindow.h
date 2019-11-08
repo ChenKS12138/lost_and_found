@@ -25,6 +25,10 @@ private slots:
 
     void on_manageAdmin_clicked();
 
+    void on_removeAll_clicked();
+
+    void on_removeRecord_clicked();
+
 private:
     Ui::AppWindow *ui;
     void syncTable(vector<Record> &allRecord);

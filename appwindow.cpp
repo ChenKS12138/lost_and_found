@@ -20,6 +20,8 @@ AppWindow::AppWindow(Admin a,QWidget *parent) :
         ui->confirmRecord->setDisabled(false);
         ui->manageAdmin->setDisabled(false);
         ui->found->setDisabled(false);
+        ui->removeRecord->setDisabled(false);\
+        ui->removeAll->setDisabled(false);
     }
     ui->recordTable->setColumnCount(8);
     ui->recordTable->setColumnWidth(0,120);
@@ -103,8 +105,11 @@ void AppWindow::on_found_clicked()
     //点击认领
     bool nameOk,phoneOk,idOk;
     string nameText = QInputDialog::getText(NULL, "认领物品","请输入认领人名称",QLineEdit::Normal,"认领人名称",&nameOk).toStdString();
+    if(!nameOk) return;
     string phoneText = QInputDialog::getText(NULL, "认领物品","请输入认领人手机号",QLineEdit::Normal,"认领人手机号",&phoneOk).toStdString();
+    if(!phoneOk) return;
     string idText = QInputDialog::getText(NULL, "认领物品","请输入认领人学号",QLineEdit::Normal,"认领人学号",&idOk).toStdString();
+    if(!idOk) return;
     PersonalInfo p(nameText.c_str(),phoneText.c_str(),idText.c_str());
     RecordTime t;
     t.setNow();
@@ -127,4 +132,22 @@ void AppWindow::on_confirmRecord_clicked()
 void AppWindow::on_manageAdmin_clicked()
 {
     // 点击管理管理员
+}
+
+void AppWindow::on_removeAll_clicked()
+{
+    vector<Record> allRecord;
+    Util::setStorageSync<Record>("record",allRecord);
+    this->syncTable(allRecord);
+}
+
+void AppWindow::on_removeRecord_clicked()
+{
+    int index = this->getSelectedSingleRow();
+    if(index!=-1){
+        vector<Record> allRecord = Util::getStorageSync<Record>("record");
+        allRecord.erase(allRecord.begin()+index);
+        Util::setStorageSync<Record>("record",allRecord);
+        this->syncTable(allRecord);
+    }
 }
