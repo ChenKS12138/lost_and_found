@@ -30,7 +30,6 @@ void MainWindow::on_pushButton_clicked()
         this->close();
         return;
     };
-    // vector<Admin> allAdmin = Util::getAdmin();
     vector<Admin> allAdmin = Util::getStorageSync<Admin>("admin");
     for (int i = 0, length = allAdmin.size(); i < length; i++)
     {

@@ -110,6 +110,11 @@ void Record::pickUp(PersonalInfo *p,RecordTime *pt)
     this->pickUpTime = new RecordTime(pt);
     this->info = new PersonalInfo(p);
 }
+
+void Record::pickUp(PersonalInfo &p, RecordTime &pt){
+    pickUp(&p,&pt);
+}
+
 string Record::toString(){
     string stateString;
     switch(state){
@@ -205,88 +210,3 @@ bool Util::generateRecord( Record &r){
 bool Util::generateRecord(Record *r){
     return generateRecord(*r);
 }
-bool Util::addAdmin(Admin &a){
-    try{
-        ofstream outF(DAT_PATH + "admin.dat", ios::app | ios::binary);
-        if(outF.is_open()){
-            outF.write((char *)&a, sizeof(Admin));
-            outF.close();
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
-    catch(exception e){
-        return false;
-    }
-}
-vector<Admin> Util::getAdmin(){
-    vector<Admin> dest;
-    ifstream inF(DAT_PATH + "admin.dat", ios::in | ios::binary);
-    if(inF.is_open()){
-        Admin temp;
-        while (inF.read((char *)&temp, sizeof(Admin)))
-        {
-            dest.push_back(temp);
-        }
-        inF.close();
-        return dest;
-    }
-}
-bool Util::addRecord(Record &a){
-    try{
-        ofstream outF(DAT_PATH + "record.dat", ios::app | ios::binary);
-        if(outF.is_open()){
-            outF.write((char *)&a, sizeof(Record));
-            outF.close();
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
-    catch(exception e){
-        return false;
-    }
-}
-vector<Record> Util::getRecord(){
-    vector<Record> dest;
-    ifstream inF(DAT_PATH + "record.dat", ios::in | ios::binary);
-    if(inF.is_open()){
-        Record temp;
-        while (inF.read((char *)&temp, sizeof(Record)))
-        {
-            dest.push_back(temp);
-        }
-        inF.close();
-        return dest;
-    }
-}
-bool Util::syncAdmin(vector<Admin> &a){
-    try{
-        ofstream outF(DAT_PATH + "admin.dat", ios::out | ios::binary);
-        if(outF.is_open()){
-            outF.write((char *)&a, sizeof(Admin));
-            outF.close();
-            return true;
-        }
-    }
-    catch(exception e){
-        return false;
-    }
-}
-bool Util::syncRecord(vector<Record> &r){
-    try{
-        ofstream outF(DAT_PATH + "record.dat", ios::out | ios::binary);
-        if(outF.is_open()){
-            outF.write((char *)&r, sizeof(r));
-            outF.close();
-            return true;
-        }
-    }
-    catch(exception e){
-        return false;
-    }
-}
-

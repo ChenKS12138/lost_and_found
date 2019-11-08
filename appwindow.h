@@ -17,17 +17,18 @@ public:
     ~AppWindow();
 
 private slots:
-    void on_pushButton_clicked();
-
-    void on_pushButton_2_clicked();
-
-    void on_pushButton_3_clicked();
+    void on_newRecord_clicked();
 
     void on_confirmRecord_clicked();
+
+    void on_found_clicked();
+
+    void on_manageAdmin_clicked();
 
 private:
     Ui::AppWindow *ui;
     void syncTable(vector<Record> &allRecord);
+    int getSelectedSingleRow();
 };
 
 #endif // APPWINDOW_H

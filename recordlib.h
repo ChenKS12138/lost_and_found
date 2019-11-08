@@ -68,6 +68,7 @@ public:
     Record(string &n,string &p,RecordTime &l);
     void verify();
     void pickUp(PersonalInfo *p,RecordTime *pt);
+    void pickUp(PersonalInfo &p,RecordTime &pt);
     string toString();
     string getLostDay();
     string getName();
@@ -97,12 +98,6 @@ public:
     static string recordPath(string &filename);
     static bool generateRecord(Record &r);
     static bool generateRecord(Record *r);
-    static bool addAdmin(Admin &a);
-    static bool addRecord(Record &a);
-    static vector<Admin> getAdmin();
-    static vector<Record> getRecord();
-    static bool syncAdmin(vector<Admin> &a);
-    static bool syncRecord(vector<Record> &r);
     
     template <class T>
     static vector<T> getStorageSync(const char filename[]){

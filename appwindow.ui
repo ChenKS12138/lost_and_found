@@ -14,7 +14,7 @@
    <string>机房失物招领系统</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="newRecord">
     <property name="geometry">
      <rect>
       <x>50</x>
@@ -111,7 +111,7 @@
      <x>0</x>
      <y>0</y>
      <width>1107</width>
-     <height>26</height>
+     <height>23</height>
     </rect>
    </property>
   </widget>

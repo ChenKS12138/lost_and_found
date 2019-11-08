@@ -31,12 +31,12 @@ AppWindow::AppWindow(Admin a,QWidget *parent) :
     ui->recordTable->setColumnWidth(6,120);
     ui->recordTable->setColumnWidth(7,200);
     ui->recordTable->setSelectionBehavior(QAbstractItemView::SelectRows);
+    ui->recordTable->setSelectionMode ( QAbstractItemView::SingleSelection);
     ui->recordTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
     ui->recordTable->verticalHeader()->setVisible(true);
     QStringList sListHeader;
     sListHeader<<"物品名称"<<"丢失时间"<<"丢失地点"<<"状态"<<"认领人姓名"<<"认领人学号"<<"认领人学号"<<"认领时间";
     ui->recordTable->setHorizontalHeaderLabels(sListHeader);
-    // vector<Record> allRecord = Util::getRecord();
     vector<Record> allRecord = Util::getStorageSync<Record>("record");
     this->syncTable(allRecord);
 }
@@ -69,7 +69,18 @@ void AppWindow::syncTable(vector<Record> &allRecord){
     }
 }
 
-void AppWindow::on_pushButton_clicked()
+int AppWindow::getSelectedSingleRow(){
+    QList<QTableWidgetSelectionRange> ranges =ui->recordTable->selectedRanges();
+    int length = ranges.length();
+    if(length!=0){
+        return ranges[0].topRow();
+    }
+    else{
+        return -1;
+    }
+}
+
+void AppWindow::on_newRecord_clicked()
 {
     bool nameOk,placeOk;
     string nameText = QInputDialog::getText(NULL, "新建记录","请输入物品名称",QLineEdit::Normal,"物品名称",&nameOk).toStdString();
@@ -87,23 +98,33 @@ void AppWindow::on_pushButton_clicked()
     this->syncTable(allRecord);
 }
 
-void AppWindow::on_pushButton_2_clicked()
+void AppWindow::on_found_clicked()
 {
     //点击认领
-}
-
-void AppWindow::on_pushButton_3_clicked()
-{
-    // 点击管理管理员
+    bool nameOk,phoneOk,idOk;
+    string nameText = QInputDialog::getText(NULL, "认领物品","请输入认领人名称",QLineEdit::Normal,"认领人名称",&nameOk).toStdString();
+    string phoneText = QInputDialog::getText(NULL, "认领物品","请输入认领人手机号",QLineEdit::Normal,"认领人手机号",&phoneOk).toStdString();
+    string idText = QInputDialog::getText(NULL, "认领物品","请输入认领人学号",QLineEdit::Normal,"认领人学号",&idOk).toStdString();
+    PersonalInfo p(nameText.c_str(),phoneText.c_str(),idText.c_str());
+    RecordTime t;
+    t.setNow();
+    vector<Record> allRecord = Util::getStorageSync<Record>("record");
+    allRecord[this->getSelectedSingleRow()].pickUp(p,t);
+    Util::setStorageSync<Record>("record",allRecord);
+    this->syncTable(allRecord);
 }
 
 void AppWindow::on_confirmRecord_clicked()
 {
     //点击确认记录
-    QList<QTableWidgetSelectionRange> ranges =ui->recordTable->selectedRanges();
-    int selected = ranges[0].topRow();
     vector<Record> allRecord = Util::getStorageSync<Record>("record");
-    allRecord[selected].verify();
-    Util::setStorageSync("record",allRecord);
+    allRecord[this->getSelectedSingleRow()].verify();
+    Util::setStorageSync<Record>("record",allRecord);
     this->syncTable(allRecord);
+}
+
+
+void AppWindow::on_manageAdmin_clicked()
+{
+    // 点击管理管理员
 }
