@@ -8,6 +8,7 @@
 #include<QString>
 #include<vector>
 #include<algorithm>
+#include<QMessageBox>
 
 using namespace std;
 
@@ -106,6 +107,7 @@ void AppWindow::on_newRecord_clicked()
     allRecord.push_back(a);
     Util::setStorageSync("record",allRecord);
     this->syncTable(allRecord);
+    QMessageBox::about(NULL, "SUCCESS", "记录创建成功");
 }
 
 void AppWindow::on_found_clicked()
@@ -125,6 +127,7 @@ void AppWindow::on_found_clicked()
     allRecord[this->getSelectedSingleRow()].pickUp(p,t);
     Util::setStorageSync<Record>("record",allRecord);
     this->syncTable(allRecord);
+    QMessageBox::about(NULL, "SUCCESS", "认领成功");
 }
 
 void AppWindow::on_confirmRecord_clicked()
@@ -149,6 +152,7 @@ void AppWindow::on_removeAll_clicked()
     vector<Record> allRecord;
     Util::setStorageSync<Record>("record",allRecord);
     this->syncTable(allRecord);
+    QMessageBox::about(NULL, "SUCCESS", "所有记录已删除");
 }
 
 void AppWindow::on_removeRecord_clicked()
@@ -159,6 +163,10 @@ void AppWindow::on_removeRecord_clicked()
         allRecord.erase(allRecord.begin()+index);
         Util::setStorageSync<Record>("record",allRecord);
         this->syncTable(allRecord);
+        QMessageBox::about(NULL, "SUCCESS", "记录已删除");
+    }
+    else{
+        QMessageBox::about(NULL, "ERROR", "请选择一项记录");
     }
 }
 
@@ -193,4 +201,5 @@ void AppWindow::on_exportRecord_clicked()
     for(int i=0,length=allRecord.size();i<length;i++){
         Util::generateRecord(allRecord[i]);
     }
+    QMessageBox::about(NULL, "SUCCESS", "记录已成功导出");
 }

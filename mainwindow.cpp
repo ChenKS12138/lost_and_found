@@ -36,6 +36,8 @@ void MainWindow::on_pushButton_clicked()
     for(int i=0,length=allAdmin.size();i<length;i++){
         if(allAdmin[i].verify(username,password)){
             this->login(allAdmin[i]);
+            return;
         }
     }
+    QMessageBox::about(NULL, "ERROR", "请检查用户名和密码");
 }
