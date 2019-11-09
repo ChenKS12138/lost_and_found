@@ -7,6 +7,7 @@
 #include<iostream>
 #include<QString>
 #include<vector>
+#include<algorithm>
 
 using namespace std;
 
@@ -36,6 +37,13 @@ AppWindow::AppWindow(Admin a,QWidget *parent) :
     ui->recordTable->setSelectionMode ( QAbstractItemView::SingleSelection);
     ui->recordTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
     ui->recordTable->verticalHeader()->setVisible(true);
+//    QHeaderView *header = ui->recordTable->horizontalHeader();
+//    header->setSortIndicator(1,Qt::AscendingOrder);
+//    header->setSortIndicator(1,Qt::DescendingOrder);
+//    header->setSortIndicator(6,Qt::AscendingOrder);
+//    header->setSortIndicator(6,Qt::DescendingOrder);
+//    header->setSortIndicatorShown(true);
+//    connect(header, SIGNAL(sectionClicked(int)), ui->recordTable, SLOT (sortByColumn(int)));
     QStringList sListHeader;
     sListHeader<<"物品名称"<<"丢失时间"<<"丢失地点"<<"状态"<<"认领人姓名"<<"认领人学号"<<"认领人学号"<<"认领时间";
     ui->recordTable->setHorizontalHeaderLabels(sListHeader);
@@ -43,10 +51,12 @@ AppWindow::AppWindow(Admin a,QWidget *parent) :
     this->syncTable(allRecord);
 }
 
+
 AppWindow::~AppWindow()
 {
     delete ui;
 }
+
 
 void AppWindow::syncTable(vector<Record> &allRecord){
     int length = allRecord.size();
@@ -92,8 +102,6 @@ void AppWindow::on_newRecord_clicked()
     RecordTime t;
     t.setNow();
     Record a(nameText,placeText,t);
-    Util::generateRecord(a);
-    
     vector<Record> allRecord = Util::getStorageSync<Record>("record");
     allRecord.push_back(a);
     Util::setStorageSync("record",allRecord);
@@ -151,5 +159,38 @@ void AppWindow::on_removeRecord_clicked()
         allRecord.erase(allRecord.begin()+index);
         Util::setStorageSync<Record>("record",allRecord);
         this->syncTable(allRecord);
+    }
+}
+
+void AppWindow::on_sortByLost_clicked()
+{
+    // 点击按丢失时间排序
+    vector<Record> allRecord = Util::getStorageSync<Record>("record");
+    sort(allRecord.begin(),allRecord.end(),Record::lostTimeComp);
+    if(this->isSortByLostDesc){
+       reverse(allRecord.begin(),allRecord.end());
+    }
+    this->isSortByLostDesc = !this->isSortByLostDesc;
+    this->syncTable(allRecord);
+}
+
+void AppWindow::on_sortByFound_clicked()
+{
+    // 点击按拾取时间排序
+    vector<Record> allRecord = Util::getStorageSync<Record>("record");
+    sort(allRecord.begin(),allRecord.end(),Record::pickUpTimeComp);
+    if(this->isSortByFoundDesc){
+        reverse(allRecord.begin(),allRecord.end());
+    }
+    this->isSortByFoundDesc = !this->isSortByFoundDesc;
+    this->syncTable(allRecord);
+}
+
+void AppWindow::on_exportRecord_clicked()
+{
+    // 点击导出文本
+    vector<Record> allRecord = Util::getStorageSync<Record>("record");
+    for(int i=0,length=allRecord.size();i<length;i++){
+        Util::generateRecord(allRecord[i]);
     }
 }

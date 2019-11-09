@@ -41,8 +41,8 @@ public:
     RecordTime(RecordTime *p);
     string toString();
     string toShortString();
+    time_t toUnixTime();
     void setNow();
-    static void sort(RecordTime *data, int length);
 };
 
 class PersonalInfo{
@@ -77,6 +77,10 @@ public:
     string getPlace();
     string getState();
     PersonalInfo getInfo();
+    RecordTime getLostTime();
+    RecordTime getFoundTime();
+    static bool lostTimeComp( Record &a,  Record &b);
+    static bool pickUpTimeComp( Record &a, Record &b);
 };
 
 class Admin{

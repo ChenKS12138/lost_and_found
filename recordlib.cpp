@@ -25,10 +25,15 @@ void RecordTime::setNow(){
     this->unixTime = ut;
     this->timeStruct = *localtime(&ut);
 }
+
+time_t RecordTime::toUnixTime(){
+    return this->unixTime;
+}
+
 string RecordTime::toString()
 {
     if(isEmpty)
-        return string("未知");
+        return string("");
     string year = to_string(this->timeStruct.tm_year + 1900);
     string month = to_string(timeStruct.tm_mon + 1);
     string day = to_string(timeStruct.tm_mday);
@@ -39,24 +44,11 @@ string RecordTime::toString()
 }
 string RecordTime::toShortString(){
     if(isEmpty)
-        return string("未知");
+        return string("");
     string year = to_string(timeStruct.tm_year + 1900);
     string month = to_string(timeStruct.tm_mon + 1);
     string day = to_string(timeStruct.tm_mday);
     return year + "-" + month + "-" + day;
-}
-    void RecordTime::sort(RecordTime *data ,int length){
-    for (int i = 0; i < length; i++)
-    {
-        for (int j = i + 1; j < length;j++){
-            if(data[j].unixTime>data[i].unixTime){
-                RecordTime *temp = new RecordTime(data[i]);
-                data[i] = data[j];
-                data[j] = *temp;
-                delete temp;
-            }
-        }
-    }
 }
 
 PersonalInfo::PersonalInfo(const char *n,const char *p,const char *s){
@@ -64,7 +56,7 @@ PersonalInfo::PersonalInfo(const char *n,const char *p,const char *s){
     strcpy(phoneNumber, p);
     strcpy(studentID, s);
 }
-PersonalInfo::PersonalInfo():name("未知"),phoneNumber("未知"),studentID("未知"){}
+PersonalInfo::PersonalInfo():name(""),phoneNumber(""),studentID(""){}
 PersonalInfo::PersonalInfo(PersonalInfo *p) {
     strcpy(name, p->name);
     strcpy(phoneNumber, p->phoneNumber);
@@ -127,12 +119,12 @@ string Record::toString(){
     case FOUND:
         stateString = "已被认领";
     default:
-        stateString = "未知";
+        stateString = "";
     }
     return "物品名称:" + string(name) + " 位置:" + string(place)+" 丢失时间:"+lostTime.toString() +" " +stateString;
 }
 string Record::getLostDay(){
-    return lostTime.toShortString();
+    return lostTime.toString();
 }
 
 string Record::getPickUpTime(){
@@ -161,6 +153,22 @@ string Record::getState(){
 
 PersonalInfo Record::getInfo(){
     return this->info;
+}
+
+RecordTime Record::getLostTime(){
+    return this->lostTime;
+}
+
+RecordTime Record::getFoundTime(){
+    return this->pickUpTime;
+}
+
+bool Record::lostTimeComp(Record &a,Record &b){
+    return difftime(a.getLostTime().toUnixTime(), b.getLostTime().toUnixTime()) > 0;
+}
+
+bool Record::pickUpTimeComp( Record &a,Record &b){
+    return difftime(a.getFoundTime().toUnixTime(), b.getFoundTime().toUnixTime()) > 0;
 }
 
 Admin::Admin(const char *u,const char *p):isSuper(false){

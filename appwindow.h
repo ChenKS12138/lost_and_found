@@ -31,8 +31,16 @@ private slots:
 
     void on_removeRecord_clicked();
 
+    void on_sortByLost_clicked();
+
+    void on_sortByFound_clicked();
+
+    void on_exportRecord_clicked();
+
 private:
     Ui::AppWindow *ui;
+    bool isSortByLostDesc = true;
+    bool isSortByFoundDesc = true;
     void syncTable(vector<Record> &allRecord);
     int getSelectedSingleRow();
 };

@@ -72,6 +72,7 @@ void AdminWindow::on_addAdmin_clicked()
     this->syncTalbe(allAdmin);
 }
 
+
 void AdminWindow::on_removeAdmin_clicked()
 {
     //点击移除管理员
