@@ -198,8 +198,6 @@ void AppWindow::on_exportRecord_clicked()
 {
     // 点击导出文本
     vector<Record> allRecord = Util::getStorageSync<Record>("record");
-    for(int i=0,length=allRecord.size();i<length;i++){
-        Util::generateRecord(allRecord[i]);
-    }
+    Util::generateRecord(allRecord);
     QMessageBox::about(NULL, "SUCCESS", "记录已成功导出");
 }

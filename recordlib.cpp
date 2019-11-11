@@ -209,18 +209,20 @@ string Util::DAT_PATH= "./";
 string Util::recordPath(string &filename){
     return "./" + filename + ".txt";
 }
-bool Util::generateRecord( Record &r){
-    string filename = r.getLostDay();
-    ofstream outF(recordPath(filename),ifstream::app);
+bool Util::generateRecord(vector<Record> &r){
+    RecordTime t;
+    t.setNow();
+    string result, filename = t.toShortString();
+    for(int i=0,length=r.size();i<length;i++){
+        result+=(r[i].toString()+"\n");
+    }
+    ofstream outF(recordPath(filename), ios::out);
     if(outF.is_open()){
-        outF << r.toString() << endl;
+        outF<<result<<endl;
         outF.close();
         return true;
     }
     else{
         return false;
     }
-}
-bool Util::generateRecord(Record *r){
-    return generateRecord(*r);
 }

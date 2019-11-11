@@ -103,8 +103,7 @@ class Util{
 public:
     static string DAT_PATH;
     static string recordPath(string &filename);
-    static bool generateRecord(Record &r);
-    static bool generateRecord(Record *r);
+    static bool generateRecord(vector<Record> &r);
     
     template <class T>
     static vector<T> getStorageSync(const char filename[]){
