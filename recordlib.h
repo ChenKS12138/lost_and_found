@@ -10,10 +10,11 @@
 
 using namespace std;
 
-
+// 用于获取数组的长度
 template<class T>
 int getLength(T &arr);
 
+// 用于记录丢失物品的状态
 enum RecordState
 {
     LOST,
@@ -21,6 +22,7 @@ enum RecordState
     FOUND
 };
 
+// 用于记录丢失的物品的类型
 enum RecordType
 {
     DEVICE,
@@ -29,6 +31,7 @@ enum RecordType
     OTHER
 };
 
+// 用于记录时间的类
 class RecordTime{
 private:
     time_t unixTime;
@@ -45,6 +48,7 @@ public:
     void setNow();
 };
 
+// 认领人的个人信息的类
 class PersonalInfo{
 public:
     char name[30],phoneNumber[30],studentID[30];
@@ -56,6 +60,8 @@ public:
     string getPhone();
     string getID();
 };
+
+// 丢失记录的类
 class Record{
 private:
   char name[30],place[30];
@@ -83,6 +89,7 @@ public:
     static bool pickUpTimeComp( Record &a, Record &b);
 };
 
+// 管理员类
 class Admin{
 private:
     bool isSuper;
@@ -99,12 +106,16 @@ public:
     string getPassword();
 };
 
+// 工具类，主要负责信息的存储读取
 class Util{
 public:
     static string DAT_PATH;
     static string recordPath(string &filename);
+    
+    // 用于导出txt记录
     static bool generateRecord(vector<Record> &r);
     
+    // 用于读取二进制数据并写入内存中
     template <class T>
     static vector<T> getStorageSync(const char filename[]){
         vector<T> dest;
@@ -121,6 +132,7 @@ public:
         }
     }
 
+    // 用于将数据从内存中写入磁盘中
     template <class T>
     static bool setStorageSync(const char filename[], vector<T> &t){
         try{
