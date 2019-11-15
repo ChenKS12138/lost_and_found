@@ -47,6 +47,7 @@ public:
     time_t toUnixTime();
     void setNow();
     bool isLastWeek();
+    bool isLastYear();
 };
 
 // 认领人的个人信息的类

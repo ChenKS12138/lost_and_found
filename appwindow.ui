@@ -139,7 +139,7 @@
    <widget class="QPushButton" name="sortByLost">
     <property name="geometry">
      <rect>
-      <x>330</x>
+      <x>300</x>
       <y>30</y>
       <width>111</width>
       <height>23</height>
@@ -152,7 +152,7 @@
    <widget class="QPushButton" name="sortByFound">
     <property name="geometry">
      <rect>
-      <x>450</x>
+      <x>430</x>
       <y>30</y>
       <width>111</width>
       <height>23</height>
@@ -189,6 +189,19 @@
     </property>
     <property name="text">
      <string>导出上周记录</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="export_last_year">
+    <property name="geometry">
+     <rect>
+      <x>582</x>
+      <y>20</y>
+      <width>111</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>导出一年以上</string>
     </property>
    </widget>
   </widget>

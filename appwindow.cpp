@@ -214,3 +214,16 @@ void AppWindow::on_export_last_week_clicked()
     Util::generateRecord(lastWeek,"last_week_record");
     QMessageBox::about(NULL, "SUCCESS", "上周的记录已成功导出");
 }
+
+void AppWindow::on_export_last_year_clicked()
+{
+    vector<Record> allRecord = Util::getStorageSync<Record>("record");
+    vector<Record> lastYear;
+    for(int i=0,length=allRecord.size();i<length;i++){
+        if(allRecord[i].getLostTime().isLastYear()){
+            lastYear.push_back(allRecord[i]);
+        }
+    }
+    Util::generateRecord(lastYear,"last_year_record");
+    QMessageBox::about(NULL, "SUCCESS", "一年以上记录已成功导出");
+}

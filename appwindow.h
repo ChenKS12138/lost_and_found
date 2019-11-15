@@ -39,6 +39,8 @@ private slots:
 
     void on_export_last_week_clicked();
 
+    void on_export_last_year_clicked();
+
 private:
     Ui::AppWindow *ui;
     bool isSortByLostDesc = true;

@@ -59,6 +59,14 @@ bool RecordTime::isLastWeek(){
     return diff < (ONE_DAY*7);
 }
 
+bool RecordTime::isLastYear(){
+    int ONE_YEAR = 31536000;
+    RecordTime now;
+    now.setNow();
+    long diff = now.toUnixTime() - this->toUnixTime();
+    return diff > ONE_YEAR;
+}
+
 PersonalInfo::PersonalInfo(const char *n,const char *p,const char *s){
     strcpy(name,n);
     strcpy(phoneNumber, p);
