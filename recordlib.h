@@ -46,6 +46,7 @@ public:
     string toShortString();
     time_t toUnixTime();
     void setNow();
+    bool isLastWeek();
 };
 
 // 认领人的个人信息的类
@@ -114,7 +115,7 @@ public:
     
     // 用于导出txt记录
     static bool generateRecord(vector<Record> &r);
-    
+    static bool generateRecord(vector<Record> &r,string filename);
     // 用于读取二进制数据并写入内存中
     template <class T>
     static vector<T> getStorageSync(const char filename[]){

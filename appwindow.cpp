@@ -201,3 +201,16 @@ void AppWindow::on_exportRecord_clicked()
     Util::generateRecord(allRecord);
     QMessageBox::about(NULL, "SUCCESS", "记录已成功导出");
 }
+
+void AppWindow::on_export_last_week_clicked()
+{
+    vector<Record> allRecord = Util::getStorageSync<Record>("record");
+    vector<Record> lastWeek;
+    for(int i=0,length=allRecord.size();i<length;i++){
+        if(allRecord[i].getLostTime().isLastWeek()){
+            lastWeek.push_back(allRecord[i]);
+        }
+    }
+    Util::generateRecord(lastWeek,"last_week_record");
+    QMessageBox::about(NULL, "SUCCESS", "上周的记录已成功导出");
+}

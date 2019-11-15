@@ -178,6 +178,19 @@
      <string>导出记录</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="export_last_week">
+    <property name="geometry">
+     <rect>
+      <x>712</x>
+      <y>20</y>
+      <width>101</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>导出上周记录</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -185,7 +198,7 @@
      <x>0</x>
      <y>0</y>
      <width>1107</width>
-     <height>23</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>

@@ -51,6 +51,14 @@ string RecordTime::toShortString(){
     return year + "-" + month + "-" + day;
 }
 
+bool RecordTime::isLastWeek(){
+    int ONE_DAY = 86400;
+    RecordTime now;
+    now.setNow();
+    long diff = now.toUnixTime()-this->toUnixTime();
+    return diff < (ONE_DAY*7);
+}
+
 PersonalInfo::PersonalInfo(const char *n,const char *p,const char *s){
     strcpy(name,n);
     strcpy(phoneNumber, p);
@@ -213,6 +221,22 @@ bool Util::generateRecord(vector<Record> &r){
     RecordTime t;
     t.setNow();
     string result, filename = t.toShortString();
+    for(int i=0,length=r.size();i<length;i++){
+        result+=(r[i].toString()+"\n");
+    }
+    ofstream outF(recordPath(filename), ios::out);
+    if(outF.is_open()){
+        outF<<result<<endl;
+        outF.close();
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+
+bool Util::generateRecord(vector<Record> &r,string filename){
+    string result;
     for(int i=0,length=r.size();i<length;i++){
         result+=(r[i].toString()+"\n");
     }
